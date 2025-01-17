@@ -7,7 +7,7 @@ import numpy as np
 from tqdm import tqdm
 
 argparser = argparse.ArgumentParser()
-argparser.add_argument('--model_name_or_path', type=str, default='meta-llama/Llama-2-7b-chat-hf')
+argparser.add_argument('--model_name_or_path', type=str, default='/root/autodl-fs/models--meta-llama--Llama-2-7b-chat-hf/snapshots/f5db02db724555f92da89c216ac04704f23d4590')
 args = argparser.parse_args()
 
 
