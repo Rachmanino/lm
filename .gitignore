@@ -3,3 +3,4 @@ train*/
 *.txt
 run.ipynb
 *.zip
+vis/__pycache__/
