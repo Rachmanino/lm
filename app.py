@@ -17,12 +17,16 @@ def load_llama2():
     )
 
 def load_llama2_trump():
+
+    # LOCAL
     return (
         AutoModelForCausalLM.from_pretrained("/root/autodl-fs/llama2-trump",
                                              torch_dtype=torch.float16, 
                                              device_map="cuda"),
         AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
     )
+
+    # REMOTE
     '''
     # return (
     #     AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-Trump-chat",
@@ -99,19 +103,11 @@ itf1 = gr.Interface(
 itf2 = gr.ChatInterface(chat, 
                         additional_inputs=gr.Dropdown(MODEL2FN.keys(), label="Model"))
 
-itf3 = gr.Interface(
-    fn=qa, 
-    inputs=[
-        gr.Dropdown(MODEL2FN.keys(), label="Model"),
-        gr.Textbox(lines=3, placeholder="Your input...",label="Prompt"),
-        gr.Number(label="Max New Tokens"),
-        gr.Checkbox(label="Do sample"),
-        gr.Slider(0.01, 2, step=0.01, label="Temperature(need do sample)"),
-        gr.Dropdown(caches, label="KVCache")
-    ],
-    outputs=gr.Textbox(label="Response"))
+itf3 = NotImplemented #TODO: Implement QA with RAG
 
-chat = gr.TabbedInterface([itf1, itf2], tab_names=["QA", "Chat", "QA with RAG"], 
+chatbot = gr.TabbedInterface([itf1, itf2, itf3], tab_names=["QA", "Chat", "QA with RAG"], 
                           title="Mini Chatbot", 
-                          theme='soft')
-chat.launch()
+                          theme='soft') # can switch
+
+if __name__ == "__main__":
+    chatbot.launch()
