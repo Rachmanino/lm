@@ -35,7 +35,7 @@ Based on the WebUI implemented in Part 2, we further build a RAG system to exten
   - 3. Choose `Chunk Size`, `Chunk Overlap` and `Top-k`, then click `Set` button
   - 4. Once the database is built, Then you can chat with the model with the extended knowledge in `QA` or `chat` mode. To cancel it, click off the `Enable RAG` button and click `Set` button again.
   
-### Part 4: 
+### Part 4: Visualizing Attention Score
 We further provide a demo to visualize the attention score of LLMs on the prompt in the prefill stage.
 ```sh
 cd vis

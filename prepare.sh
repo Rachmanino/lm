@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This script is used to prepare the environment and data for the LLaMA-Factory to finetune the model.
 
 # prepare the env

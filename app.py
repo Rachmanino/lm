@@ -7,48 +7,41 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
-# def load_gpt2():
-#     return (
-#         AutoModelForCausalLM.from_pretrained("openai-community/gpt2", device_map="cuda"),
-#         AutoTokenizer.from_pretrained("openai-community/gpt2")
-#     )
+LOCAL = True
 
 def load_llama2():
-    # LOCAL
-    return (
-        AutoModelForCausalLM.from_pretrained("/root/autodl-fs/models--meta-llama--Llama-2-7b-chat-hf/snapshots/f5db02db724555f92da89c216ac04704f23d4590",
-                                             torch_dtype=torch.float16, 
-                                             device_map="cuda"),
-        AutoTokenizer.from_pretrained("/root/autodl-fs/models--meta-llama--Llama-2-7b-chat-hf/snapshots/f5db02db724555f92da89c216ac04704f23d4590")
-    )
+    if LOCAL:
+        return (
+            AutoModelForCausalLM.from_pretrained("/root/autodl-fs/models--meta-llama--Llama-2-7b-chat-hf/snapshots/f5db02db724555f92da89c216ac04704f23d4590",
+                                                torch_dtype=torch.float16, 
+                                                device_map="cuda"),
+            AutoTokenizer.from_pretrained("/root/autodl-fs/models--meta-llama--Llama-2-7b-chat-hf/snapshots/f5db02db724555f92da89c216ac04704f23d4590")
+        )
 
     # REMOTE
-    # return (
-    #     AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf",
-    #                                           torch_dtype=torch.float16,
-    #                                           device_map="cuda"),
-    #     AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-    # )
+    return (
+        AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf",
+                                              torch_dtype=torch.float16,
+                                              device_map="cuda"),
+        AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+    )
 
 def load_llama2_trump():
-
-    # LOCAL
-    return (
-        AutoModelForCausalLM.from_pretrained("/root/autodl-fs/llama2-trump",
-                                             torch_dtype=torch.float16, 
-                                             device_map="cuda"),
-        AutoTokenizer.from_pretrained("/root/autodl-fs/llama2-trump")
-    )
+    if LOCAL:
+        return (
+            AutoModelForCausalLM.from_pretrained("/root/autodl-fs/llama2-trump",
+                                                torch_dtype=torch.float16, 
+                                                device_map="cuda"),
+            AutoTokenizer.from_pretrained("/root/autodl-fs/llama2-trump")
+        )
 
     # REMOTE
-    '''
-    # return (
-    #     AutoModelForCausalLM.from_pretrained("rachmanino/Llama-2-7B-chat-Trump-v1",
-    #                                          torch_dtype=torch.float16, 
-    #                                          device_map="cuda"),
-    #     AutoTokenizer.from_pretrained("rachmanino/Llama-2-7B-chat-Trump-v1")
-    # )
-    '''
+    return (
+        AutoModelForCausalLM.from_pretrained("rachmanino/Llama-2-7B-chat-Trump-v1",
+                                             torch_dtype=torch.float16, 
+                                             device_map="cuda"),
+        AutoTokenizer.from_pretrained("rachmanino/Llama-2-7B-chat-Trump-v1")
+    )
 
 MODEL2FN = {
     # "GPT-2": load_gpt2,
@@ -58,7 +51,8 @@ MODEL2FN = {
 
 caches = [
     'No KVCache',
-    'Enable KVCache'
+    'Enable KVCache',
+    'H2O KVCache'
 ]
 current_model = None
 model = None
