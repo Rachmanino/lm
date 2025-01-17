@@ -9,8 +9,8 @@ conda install -f environment.yml
 ```
 ## Content
 ### Part 1 : Finetuning Llama with LLaMA-Factory
-- We finetuned the base model (Llama-2-7b-chat)[https://huggingface.co/meta-llama/Llama-2-7b-chat-hf] on the [dataset](https://huggingface.co/datasets/pookie3000/trump-interviews) containing Trump's interviews. 
-- Model is available at https://huggingface.co/rachmanino/Llama-2-7B-chat-Trump-v1
+- We finetuned the base model [Llama-2-7b-chat](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf) on the [dataset](https://huggingface.co/datasets/pookie3000/trump-interviews) containing Trump's interviews. 
+- Model is available at [Huggingface](https://huggingface.co/rachmanino/Llama-2-7B-chat-Trump-v1).
 
 ![demo1](assets/812b16fe24a449baaea685adab321f3.png)
 
