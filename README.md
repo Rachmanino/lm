@@ -49,4 +49,6 @@ Then, open the application in your browser. As your mouse hover on the prompt, t
 - 蔡鑫豪：注意力可视化（Part4），文档编写
 - 林思雨：构建WebUI（Part2），PPT制作
 
-
+## Extra Info
+- CUDA version: 12.4
+- GPU: 1x NVIDIA RTX4090

@@ -1,4 +1,4 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, SinkCache
 import torch
 import gradio as gr
 
@@ -52,7 +52,7 @@ MODEL2FN = {
 caches = [
     'No KVCache',
     'Enable KVCache',
-    'H2O KVCache'
+    'Sink KVCache'
 ]
 current_model = None
 model = None
@@ -91,11 +91,27 @@ def qa(model_name: str, prompt: str, max_new_tokens: int, do_sample: bool, tempe
         prompt = augment_prompt(prompt)
     chat = [{"role": "user", "content": prompt}]
     tokenized_chat = tokenizer.apply_chat_template(chat, tokenize=True, add_generation_prompt=True, return_tensors="pt").to('cuda')
-    outputs = model.generate(tokenized_chat, 
-                             max_new_tokens=max_new_tokens, 
-                             do_sample=do_sample, 
-                             temperature=temperature, 
-                             use_cache=True if cache=="Enable KVCache" else False)
+    if cache == 'Enable KVCache':
+        outputs = model.generate(tokenized_chat, 
+                                max_new_tokens=max_new_tokens, 
+                                do_sample=do_sample, 
+                                temperature=temperature, 
+                                use_cache=True)
+    elif cache == 'NO KVCache':
+        outputs = model.generate(tokenized_chat, 
+                                max_new_tokens=max_new_tokens, 
+                                do_sample=do_sample, 
+                                temperature=temperature, 
+                                use_cache=False)
+    elif cache == 'Sink KVCache':
+        outputs = model.generate(tokenized_chat, 
+                                max_new_tokens=max_new_tokens, 
+                                do_sample=do_sample, 
+                                temperature=temperature, 
+                                use_cache=True,
+                                past_key_values=SinkCache(256, 4))  # can adjust the size
+    else: 
+        raise gr.Error(f"Invalid cache option:{cache}!")
     ans = tokenizer.decode(outputs[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
     return ans.split(" [/INST] ")[-1]
 
