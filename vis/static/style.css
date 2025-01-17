@@ -1,0 +1,36 @@
+#output span {
+    margin: 0 2px;
+    cursor: pointer;
+}
+#hoverDisplay {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+/* div with class "INPUT" , centering */
+.INPUT {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* input box larger, half window, centered */
+textarea {
+    width: 50%;
+    height: 300px;
+    font-size: 20px;
+}
+
+
+/* larger button */
+button {
+    width: 300px;
+    height: 30px;
+    font-size: 20px;
+}
+
+/* span in output bigger */
+#output span {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}

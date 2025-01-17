@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>See My Attention!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        // 发送数据到后端并处理响应
+        async function processText() {
+            const text = document.getElementById("textInput").value;
+            const response = await fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            });
+            const colorDict = await response.json();
+            displayTokens(text.split(' '), colorDict);
+        }
+
+        // 显示 tokens 并添加悬停事件
+        function displayTokens(tokens, colorDict) {
+            const output = document.getElementById("output");
+            output.innerHTML = "";  // 清空之前的内容
+
+            tokens.forEach((token, i) => {
+                const span = document.createElement("span");
+                span.innerText = token + " ";
+                span.dataset.index = i;  // 保存 token 索引
+                span.className = "token";
+
+                // 悬停时为所有 tokens 着色
+                span.onmouseover = () => {
+                    applyColors(i, colorDict);
+                };
+                span.onmouseout = resetColors;
+
+                output.appendChild(span);
+            });
+        }
+
+        // 应用 colorlist 中的颜色
+        function applyColors(index, colorDict) {
+            const tokens = document.querySelectorAll(".token");
+            const colorlist = colorDict[index];
+
+            tokens.forEach((token, j) => {
+                token.style.color = colorlist[j];  // 设置每个 token 的颜色
+            });
+        }
+
+        // 重置颜色
+        function resetColors() {
+            const tokens = document.querySelectorAll(".token");
+            tokens.forEach(token => {
+                token.style.color = "";  // 恢复默认颜色
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Watch My Attention!</h1>
+    <div class="INPUT"><textarea id="textInput" placeholder="Enter text"></textarea></div>
+
+    
+    <div class="INPUT"><button onclick="processText()">Submit</button></div>
+    <div id="output"></div>
+</body>
+</html>
